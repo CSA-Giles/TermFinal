@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class HangmanMain {
 
     public static void main(String[] args){
-        String[] words = {"abysmal","chartreuse","chlamydia","accolade","acrimony","esoteric","euphemism","gregarious","harbinger","idyllic","infinitesimal","malinger"};
+        String[] words = {"abysmal"};
         Random r = new Random();
         int rand = ((int) (Math.random() * 100) % words.length);
         Scanner input  = new Scanner(System.in);
@@ -24,6 +24,10 @@ public class HangmanMain {
                 displayWord(randWord, guess);
                 System.out.print("Enter a character to guess>>>");
                 guess = input.next().charAt(0);
+
+                if(randWord.indexOf(guess) == -1){
+                    ++loss;
+                }
             }
 
             play = false;
@@ -31,14 +35,14 @@ public class HangmanMain {
         }
     }
     public static void displayWord(String word, char guess){
-        System.out.println("Your word is:");
+        StringBuilder guessedWord = new StringBuilder();
         for(int i = 0; i < word.length(); i++){
-            if(word.indexOf(guess) >= 0){
-                System.out.print(guess);
-            }
-            else{
-                System.out.print("*");
-            }
+                guessedWord.append("*");
+        }
+        if(word.indexOf(guess) >= 0){
+            guessedWord.deleteCharAt(word.indexOf(guess));
+            guessedWord.insert(word.indexOf(guess), guess);
+            System.out.print(guessedWord);
         }
         System.out.println("\n");
     }
